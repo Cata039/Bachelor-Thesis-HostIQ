@@ -1,5 +1,5 @@
 ╔══════════════════════════════════════════════════════════════╗
-║  🍽️  RESTAURANT MANAGEMENT SYSTEM - INTERFAȚĂ WEB 🌐        ║
+║      RESTAURANT MANAGEMENT SYSTEM - INTERFAȚĂ WEB            ║
 ╚══════════════════════════════════════════════════════════════╝
 
 FIȘIERE NECESARE:
@@ -53,14 +53,6 @@ DREAPTA (Waiting List):
 - Dispare când primesc masă
 
 
-🎮 BUTOANE:
---------------------
-➕ Add Customer  - Adaugă un client nou (manual)
-▶️  Start        - Pornește simularea automată
-⏸️  Stop         - Oprește simularea
-🔄 Reset        - Resetează tot restaurantul
-
-
 STATISTICI (sus):
 --------------------
 - Total Customers   - Câți au venit
@@ -74,26 +66,6 @@ IMPORTANT:
 - Folderul "templates" TREBUIE să fie lângă web_interface.py
 - Nu șterge index.html din templates/
 - Pentru a opri serverul: CTRL+C în terminal
-
-
-PROBLEME?
---------------------
-1. "No module named flask"
-   → pip3 install flask
-
-2. "Template not found"
-   → Verifică că ai folderul templates/
-
-3. "Port already in use"
-   → Schimbă portul în web_interface.py (linia 217)
-
-
-TIPS:
---------------------
-- Adaugă 5-10 clienți rapid cu Add Customer
-- Apoi dă Start pentru automatizare
-- Unii clienți vor aștepta dacă nu sunt mese
-- Mesele se eliberează când clienții pleacă
 
 
 PENTRU PREZENTARE:
