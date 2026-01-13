@@ -1,74 +1,86 @@
 # Smart Restaurant Management System
 
-## 🎨 Interfață Web Interactivă
+This project simulates a restaurant management system using multi-agent architecture. The system coordinates three types of agents to handle restaurant operations: hosts manage table assignments, customers request seating and meals, and waiters take orders and serve food.
 
-### Instalare
+## Instalation
+Install the required dependencies:
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Rulare
-
-#### Opțiunea 1: Interfață Web (RECOMANDAT) 🌐
+### Running the Application (Web version):
+Start the Flask server:
 ```bash
 python3 web_interface.py
 ```
-Apoi deschide în browser: **http://localhost:5000**
+Open your browser and navigate to:: **http://localhost:5000**
 
-#### Opțiunea 2: Consolă
+#### Console version:
 ```bash
 python3 main_simulation.py
 ```
 
-## 🖥️ Caracteristici Interfață Web
+## Project Structure
+```bash
+.
+├── web_interface.py       # Flask server for web interface
+├── restaurant_agents.py   # Agent definitions and behaviors
+├── restaurant_model.py    # MESA model implementation
+├── main_simulation.py     # Console-based simulation
+├── requirements.txt       # Python dependencies
+├── templates/
+│   └── index.html        # Web interface template
+└── README.md             # This file
+```
 
-### Stânga: 💬 Communication Log
-- Vezi în timp real toate mesajele dintre agenți
-- Culori diferite pentru fiecare tip de agent:
-  - 🔵 Client (albastru)
-  - 🟢 Host (verde)
-  - 🟡 Waiter (galben)
-  - ✅ Success (verde deschis)
-  - ⚠️ Warning (roșu)
+## Web Interface Features
 
-### Centru: 🪑 Restaurant Tables
-- 10 mese afișate vizual
-- ✅ Verde = liber
-- 🍽️ Galben = ocupat
-- Vezi ID-ul clientului la fiecare masă
+### Communication Log (Left):
+Displays real-time message exchanges between agents with color-coded identification:
+* Client - Blue
+* Host - Green
+* Waiter - Yellow
+* Success messages - Light green
+* Warnings - Red
+Messages auto-scroll to show the latest communications.
 
-### Dreapta: ⏳ Waiting List
-- Lista clienților care așteaptă
-- Actualizare în timp real
-- Se șterge automat când primesc masă
+### Restaurant Tables (Center Panel):
+Visual representation of 10 restaurant tables:
+* Green - Available table
+* Yellow - Occupied table (shows customer ID)
+* Updates in real-time as customers are seated and leave
 
-## 🎮 Controale
+### Waiting List (Right Panel):
+Shows customers waiting for available tables:
+* Updates automatically when customers join the queue
+* Removes customers automatically when they receive a table
+* Displays current waiting count
 
-- **➕ Add Customer** - Adaugă un client nou
-- **▶️ Start** - Pornește simularea automată
-- **⏸️ Stop** - Oprește simularea
-- **🔄 Reset** - Resetează tot
+##  Statistics Dashboard
+Real-time metrics displayed at the top of the interface:
+* Total Customers - Total number of customers who have visited
+* Seated - Currently dining customers
+* Available Tables - Number of free tables
+* Waiting - Customers in the waiting list
 
-## 📊 Statistici Live
+## Controls
+* Party Size Input - Enter number of people (1-8) in the party
+* Add Customer - Manually add a customer with the specified party size
 
-- Total Customers
-- Seated (câți mănâncă)
-- Available Tables
-- Waiting (în waiting list)
 
-## Ce face?
+## Usage Guide
+### Basic Operation: 
 
-Simulează un restaurant cu 3 tipuri de agenți:
-- **HostAgent** - gestionează mesele și alocă clienților
-- **CustomerAgent** - vin clienți, cer mese, mănâncă, pleacă
-- **WaiterAgent** - iau comenzi, servesc mâncarea
+* Enter a party size (1-8 people) in the input field
+* Click "Add Customer" to create a new customer
+* Watch the customer interact with the host to request a table
+* Observe the waiter taking orders and serving food
+* See customers leave after completing their meal
 
-## Fișiere
 
-- `web_interface.py` - Server Flask pentru interfață
-- `restaurant_agents.py` - Definițiile agenților
-- `restaurant_model.py` - Modelul MESA
-- `main_simulation.py` - Varianta consolă
-- `templates/index.html` - Interfața web
-- `requirements.txt` - Dependențe
+### Stopping the Server
+- To stop the Flask server, press CTRL+C in the terminal window.
+
+
+
