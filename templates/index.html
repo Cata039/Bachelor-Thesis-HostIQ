@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.6em; margin-bottom: 0; }
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+            align-items: center;
+        }
+        button {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: #10b981;
+            color: white;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .party-size {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid white;
+            font-size: 18px;
+            width: 150px;
+            text-align: center;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            padding: 30px;
+            min-height: 600px;
+        }
+        .panel {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .panel h2 {
+            color: #1e293b;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .messages { max-height: 600px; overflow-y: auto; }
+        .message {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: slideIn 0.3s;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .message.client { background: #dbeafe; border-left: 4px solid #3b82f6; }
+        .message.host { background: #dcfce7; border-left: 4px solid #10b981; }
+        .message.waiter { background: #fef3c7; border-left: 4px solid #f59e0b; }
+        .message.success { background: #d1fae5; border-left: 4px solid #059669; }
+        .message.warning { background: #fee2e2; border-left: 4px solid #ef4444; }
+        .message-time { font-size: 11px; color: #64748b; margin-right: 8px; }
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+        .table {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 3px solid #e2e8f0;
+        }
+        .table.occupied { background: #fef3c7; border-color: #f59e0b; }
+        .table.available { background: #d1fae5; border-color: #10b981; }
+        .table-icon { font-size: 40px; margin-bottom: 10px; }
+        .table-id { font-weight: bold; font-size: 18px; color: #1e293b; }
+        .table-capacity { font-size: 14px; color: #64748b; margin: 5px 0; }
+        .table-customer { font-size: 12px; color: #3b82f6; margin-top: 5px; }
+        .waitlist-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border-left: 4px solid #ef4444;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .waitlist-empty {
+            text-align: center;
+            color: #94a3b8;
+            padding: 40px;
+            font-style: italic;
+        }
+        .waitlist-id { font-weight: bold; color: #1e293b; font-size: 16px; }
+        .waitlist-party { color: #64748b; font-size: 14px; margin-top: 5px; }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .stat { text-align: center; }
+        .stat-value { font-size: 32px; font-weight: bold; color: #667eea; }
+        .stat-label { font-size: 14px; color: #64748b; margin-top: 5px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Multi-Agent Communication in a Restaurant</h1>
+            <div class="controls">
+                <input type="number" id="partySize" class="party-size" placeholder="Party size" min="1" max="8" value="2">
+                <button onclick="addCustomer()">➕ Add Customer</button>
+            </div>
+        </div>
+        <div class="stats" id="stats">
+            <div class="stat"><div class="stat-value" id="totalCustomers">0</div><div class="stat-label">Total Customers</div></div>
+            <div class="stat"><div class="stat-value" id="seatedCustomers">0</div><div class="stat-label">Seated</div></div>
+            <div class="stat"><div class="stat-value" id="availableTables">6</div><div class="stat-label">Available Tables</div></div>
+            <div class="stat"><div class="stat-value" id="waitingCustomers">0</div><div class="stat-label">Waiting</div></div>
+        </div>
+        <div class="main-content">
+            <div class="panel">
+                <h2>Communication Log</h2>
+                <div class="messages" id="messages">
+                    <div class="message" style="text-align: center; color: #94a3b8;">Waiting for customers...</div>
+                </div>
+            </div>
+            <div class="panel">
+                <h2>Restaurant Tables</h2>
+                <div class="tables-grid" id="tables"></div>
+            </div>
+            <div class="panel">
+                <h2>Waiting List</h2>
+                <div id="waitlist"><div class="waitlist-empty">No customers waiting</div></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let updateInterval;
+        let lastMessageCount = 0;
+        
+        function addCustomer() {
+            const partySize = document.getElementById('partySize').value || 2;
+            fetch('/api/add_customer', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({party_size: parseInt(partySize)})
+            }).then(response => response.json()).then(data => { 
+                console.log('Customer added:', data); 
+                updateState(); 
+            });
+        }
+        
+        function updateState() {
+            fetch('/api/state').then(response => response.json()).then(data => {
+                updateTables(data.tables);
+                updateWaitlist(data.waitlist);
+                updateMessages(data.messages);
+                updateStats(data.stats);
+            });
+        }
+        
+        function updateTables(tables) {
+            const container = document.getElementById('tables');
+            container.innerHTML = '';
+            tables.forEach(table => {
+                const div = document.createElement('div');
+                div.className = `table ${table.occupied ? 'occupied' : 'available'}`;
+                div.innerHTML = `<div class="table-icon">${table.occupied ? '🍽️' : '✅'}</div>
+                    <div class="table-id">Table ${table.id}</div>
+                    <div class="table-capacity">Seats: ${table.capacity}</div>
+                    ${table.occupied ? `<div class="table-customer">Client ${table.customer_id}</div>` : ''}`;
+                container.appendChild(div);
+            });
+        }
+        
+        function updateWaitlist(waitlist) {
+            const container = document.getElementById('waitlist');
+            if (waitlist.length === 0) {
+                container.innerHTML = '<div class="waitlist-empty">No customers waiting</div>';
+            } else {
+                container.innerHTML = '';
+                waitlist.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'waitlist-item';
+                    div.innerHTML = `<div class="waitlist-id">👤 Client ${item.customer_id}</div>
+                        <div class="waitlist-party">Party of ${item.party_size}</div>`;
+                    container.appendChild(div);
+                });
+            }
+        }
+        
+        function updateMessages(messages) {
+            const container = document.getElementById('messages');
+            
+            // Only update if there are NEW messages
+            if (messages.length > lastMessageCount) {
+                const shouldScroll = container.scrollHeight - container.scrollTop <= container.clientHeight + 50;
+                
+                // Only add NEW messages, don't redraw everything
+                for (let i = lastMessageCount; i < messages.length; i++) {
+                    const msg = messages[i];
+                    const div = document.createElement('div');
+                    div.className = `message ${msg.type}`;
+                    div.innerHTML = `<span class="message-time">${msg.time}</span>${msg.message}`;
+                    container.appendChild(div);
+                }
+                
+                lastMessageCount = messages.length;
+                
+                if (shouldScroll) {
+                    container.scrollTop = container.scrollHeight;
+                }
+            }
+        }
+        
+        function updateStats(stats) {
+            if (stats) {
+                document.getElementById('totalCustomers').textContent = stats.total_customers || 0;
+                document.getElementById('seatedCustomers').textContent = stats.customers_seated || 0;
+                document.getElementById('availableTables').textContent = stats.available_tables || 0;
+                document.getElementById('waitingCustomers').textContent = stats.customers_waiting || 0;
+            }
+        }
+        
+        // Initialize on page load
+        fetch('/api/init', {method: 'POST'}).then(() => updateState());
+        
+        // Auto-update every 2 seconds
+        updateInterval = setInterval(updateState, 2000);
+    </script>
+</body>
+</html>
