@@ -1,0 +1,106 @@
+╔══════════════════════════════════════════════════════════════╗
+║  🍽️  RESTAURANT MANAGEMENT SYSTEM - INTERFAȚĂ WEB 🌐        ║
+╚══════════════════════════════════════════════════════════════╝
+
+FIȘIERE NECESARE:
+--------------------
+web_interface.py        - Server Flask
+restaurant_agents.py    - Agenții
+restaurant_model.py     - Modelul MESA
+requirements.txt        - Dependențe
+templates/index.html    - Interfața web (folder!)
+README.md              - Documentație completă
+
+
+ PAS CU PAS:
+--------------------
+
+1.  Instalează dependențele:
+    pip3 install -r requirements.txt
+
+2.  Pornește serverul:
+    python3 web_interface.py
+
+3.  Deschide în browser:
+    http://localhost:5000
+
+4.  Folosește interfața:
+    - Scrie câți oameni (1-8) în "Party size"
+    - Click "Add Customer" pentru fiecare client
+    - Click "Start" pentru simulare automată
+    - Vezi mesajele în stânga 
+    - Vezi mesele în mijloc
+    - Vezi waiting list în dreapta
+
+
+ CE VEI VEDEA:
+--------------------
+
+STÂNGA (Communication Log):
+- Toate mesajele dintre Client-Host-Waiter
+- Culori diferite pentru fiecare agent
+- Scroll automat pentru ultimele mesaje
+
+CENTRU ( Restaurant Tables):
+- 10 mese vizuale
+- Verde = liber
+- Galben = ocupat cu ID client
+- Actualizare în timp real
+
+DREAPTA (Waiting List):
+- Clienții care așteaptă
+- Se actualizează automat
+- Dispare când primesc masă
+
+
+🎮 BUTOANE:
+--------------------
+➕ Add Customer  - Adaugă un client nou (manual)
+▶️  Start        - Pornește simularea automată
+⏸️  Stop         - Oprește simularea
+🔄 Reset        - Resetează tot restaurantul
+
+
+STATISTICI (sus):
+--------------------
+- Total Customers   - Câți au venit
+- Seated           - Câți mănâncă acum
+- Available Tables - Mese libere
+- Waiting          - În waiting list
+
+
+IMPORTANT:
+--------------------
+- Folderul "templates" TREBUIE să fie lângă web_interface.py
+- Nu șterge index.html din templates/
+- Pentru a opri serverul: CTRL+C în terminal
+
+
+PROBLEME?
+--------------------
+1. "No module named flask"
+   → pip3 install flask
+
+2. "Template not found"
+   → Verifică că ai folderul templates/
+
+3. "Port already in use"
+   → Schimbă portul în web_interface.py (linia 217)
+
+
+TIPS:
+--------------------
+- Adaugă 5-10 clienți rapid cu Add Customer
+- Apoi dă Start pentru automatizare
+- Unii clienți vor aștepta dacă nu sunt mese
+- Mesele se eliberează când clienții pleacă
+
+
+PENTRU PREZENTARE:
+--------------------
+1. Deschide interfața în browser
+2. Explică cele 3 panouri
+3. Adaugă câțiva clienți live
+4. Arată waiting list când e plin
+5. Arată cum pleacă și vin alții
+
